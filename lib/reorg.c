@@ -788,6 +788,12 @@ reorg_drop(PG_FUNCTION_ARGS)
 	const char *relname = get_quoted_relname(oid);
 	const char *nspname = get_quoted_nspname(oid);
 
+	if (!(relname && nspname))
+	{
+		elog(ERROR, "table name not found for OID %u", oid);
+		PG_RETURN_VOID();
+	}
+
 	/* authority check */
 	must_be_superuser("reorg_drop");
 
@@ -886,13 +892,15 @@ reorg_prepare(const char *src, int nargs, Oid *argtypes)
 static const char *
 get_quoted_relname(Oid oid)
 {
-	return quote_identifier(get_rel_name(oid));
+	const char *relname = get_rel_name(oid);
+	return (relname ? quote_identifier(relname) : NULL);
 }
 
 static const char *
 get_quoted_nspname(Oid oid)
 {
-	return quote_identifier(get_namespace_name(get_rel_namespace(oid)));
+	const char *nspname = get_namespace_name(get_rel_namespace(oid));
+	return (nspname ? quote_identifier(nspname) : NULL);
 }
 
 /*
