@@ -5,6 +5,8 @@
  * Portions Copyright (c) 2011, Itagaki Takahiro
  */
 
+CREATE SCHEMA reorg;
+
 CREATE FUNCTION reorg.version() RETURNS text AS
 'MODULE_PATHNAME', 'reorg_version'
 LANGUAGE C IMMUTABLE STRICT;

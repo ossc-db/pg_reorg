@@ -43,7 +43,6 @@ LIBS := $(filter-out -lxslt, $(LIBS))
 
 pg_reorg.sql: pg_reorg.sql.in
 	echo "BEGIN;\n" > $@; \
-	echo "CREATE SCHEMA reorg;\n" >> $@; \
 	sed 's,MODULE_PATHNAME,$$libdir/$(MODULE_big),g' $< >> $@; \
 	echo "\nCOMMIT;" >> $@;
 
