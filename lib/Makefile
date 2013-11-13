@@ -42,9 +42,9 @@ LIBS := $(filter-out -lxml2, $(LIBS))
 LIBS := $(filter-out -lxslt, $(LIBS))
 
 pg_reorg.sql: pg_reorg.sql.in
-	echo "BEGIN;\n" > $@; \
+	echo "BEGIN;" > $@; \
 	sed 's,MODULE_PATHNAME,$$libdir/$(MODULE_big),g' $< >> $@; \
-	echo "\nCOMMIT;" >> $@;
+	echo "COMMIT;" >> $@;
 
 pg_reorg--$(EXTVER).sql: pg_reorg.sql.in
 	echo '\echo Use "CREATE EXTENSION pg_reorg" to load this file. \quit' > $@; \
