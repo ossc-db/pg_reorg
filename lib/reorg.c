@@ -87,7 +87,7 @@ static void RenameRelationInternal(Oid myrelid, const char *newrelname, Oid name
 /* The API of RenameRelationInternal() was changed in 9.2.
  * Use the RENAME_REL macro for compatibility across versions.
  */
-#if PG_VERSION_NUM <= 90400
+#if PG_VERSION_NUM < 90200
 #define RENAME_REL(relid, newrelname) RenameRelationInternal(relid, newrelname, PG_TOAST_NAMESPACE);
 #else
 #define RENAME_REL(relid, newrelname) RenameRelationInternal(relid, newrelname);
