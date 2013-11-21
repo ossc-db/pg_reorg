@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<h1 id="pg_reorg">pg_reorg 1.1.8</h1>
+<h1 id="pg_reorg">pg_reorg 1.1.9</h1>
 <div class="navigation">
   <a href="index-ja.html">Top</a> &gt;
   <a href="pg_reorg-ja.html">pg_reorg</a>
@@ -307,20 +307,29 @@ msvc フォルダ内にプロジェクトファイルがあります。
 <pre>$ pg_ctl start
 $ psql -f $PGSHARE/contrib/pg_reorg.sql -d your_database</pre>
 
-<p>(注意: <code>CREATE EXTENSION</code> はまだサポートしていません。)</p>
+<p>9.2以降ではCREATE EXTENSIONによる登録も可能です。</p>
+<pre>
+$ psql -c "CREATE EXTENSION pg_reorg" -d your_database</pre>
 
 <h2 id="requirement">動作環境</h2>
 <dl>
 <dt>PostgreSQLバージョン</dt>
-<dd>PostgreSQL 8.2, 8.3, 8.4, 9.0, 9.1, 9.2</dd>
+<dd>PostgreSQL 8.2, 8.3, 8.4, 9.0, 9.1, 9.2, 9.3</dd>
 <dt>OS</dt>
-<dd>RHEL 5.2, Windows XP SP3</dd>
+<dd>RHEL 5/6</dd>
 <dt>ディスク容量</dt>
 <dd>処理対象のテーブル、インデックスサイズの2倍以上のディスク空き容量 (対象が1GBならば、さらに追加で2GB)</dd>
 </dl>
 
 <h2 id="releases">更新履歴</h2>
 <ul>
+<li>1.1.9 (2013-11-21)<ul>
+	<li>PostgreSQL 9.3のサポート</li>
+</ul></li>
+<li>1.1.8 (2012-12-07)<ul>
+	<li>PostgreSQL 9.2のサポート</li>
+	<li>CREATE EXTENSIONでのインストールをサポート</li>
+</ul></li>
 <li>1.1.7 (2011-08-07)<ul>
 	<li>バグ修正: DROPされた列を持つテーブルを再編成した場合に、そのテーブルを使用するビューや関数が破損する可能性があった。</li>
 	<li>PostgreSQL 9.1, 9.2dev のサポート (EXTENSION はまだ)</li>
@@ -337,8 +346,8 @@ $ psql -f $PGSHARE/contrib/pg_reorg.sql -d your_database</pre>
   <a href="pg_reorg-ja.html">pg_reorg</a>
 </div>
 <p class="footer">
-Portions Copyright (c) 2008-2011, NIPPON TELEGRAPH AND TELEPHONE CORPORATION<br>
-Portions Copyright (c) 2011, Itagaki Takahiro
+Portions Copyright (c) 2008-2013, NIPPON TELEGRAPH AND TELEPHONE CORPORATION<br>
+Portions Copyright (c) 2013, Takashi Ohnishi
 </p>
 
 <script type="text/javascript">
