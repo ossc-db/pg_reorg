@@ -269,12 +269,11 @@ reorg_apply(PG_FUNCTION_ARGS)
 					plan_update = reorg_prepare(sql_update, 2, &argtypes[1]);
 				execute_plan(SPI_OK_UPDATE, plan_update, &values[1], &nulls[1]);
 			}
+			/* delete the log record already treated into the target table */
+			if (plan_pop == NULL)
+				plan_pop = reorg_prepare(sql_pop, 1, argtypes);
+			execute_plan(SPI_OK_DELETE, plan_pop, values, nulls);
 		}
-
-		/* delete tuple in log */
-		if (plan_pop == NULL)
-			plan_pop = reorg_prepare(sql_pop, 1, argtypes);
-		execute_plan(SPI_OK_DELETE, plan_pop, values, nulls);
 
 		SPI_freetuptable(tuptable);
 	}

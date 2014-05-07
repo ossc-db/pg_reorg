@@ -174,7 +174,7 @@ CREATE VIEW reorg.tables AS
          'INSERT INTO reorg.table_' || R.oid || ' VALUES ($1.*)' AS sql_insert,
          'DELETE FROM reorg.table_' || R.oid || ' WHERE ' || reorg.get_compare_pkey(PK.indexrelid, '$1') AS sql_delete,
          'UPDATE reorg.table_' || R.oid || ' SET ' || reorg.get_assign(R.oid, '$2') || ' WHERE ' || reorg.get_compare_pkey(PK.indexrelid, '$1') AS sql_update,
-         'DELETE FROM reorg.log_' || R.oid || ' WHERE id <= $1' AS sql_pop
+         'DELETE FROM reorg.log_' || R.oid || ' WHERE id = $1' AS sql_pop
     FROM pg_class R
          LEFT JOIN pg_class T ON R.reltoastrelid = T.oid
          LEFT JOIN reorg.primary_keys PK
