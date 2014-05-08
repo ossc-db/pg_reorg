@@ -303,6 +303,12 @@ Windows では Microsoft Visual C++ 2010 でビルドできます。
 msvc フォルダ内にプロジェクトファイルがあります。
 </p>
 
+<p>
+リグレッションテストを行うには、PostgreSQLサーバを動作させた上で、下記コマンドを実行します。
+</p>
+<pre>$ make installcheck
+</pre>
+
 <p>その後、データベースに関数を登録します。</p>
 <pre>$ pg_ctl start
 $ psql -f $PGSHARE/contrib/pg_reorg.sql -d your_database</pre>
