@@ -109,9 +109,119 @@ SELECT * FROM tbl_with_dropped_toast;
 -- do reorg
 --
 \! pg_reorg --dbname=contrib_regression --no-order
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_cluster
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_only_pkey
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_gistkey
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_with_dropped_column
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_with_dropped_toast
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_badindex
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
 WARNING: skipping invalid index: CREATE UNIQUE INDEX idx_badindex_n ON tbl_badindex USING btree (n)
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
 \! pg_reorg --dbname=contrib_regression
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_cluster
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_with_dropped_column
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_with_dropped_toast
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
 \! pg_reorg --dbname=contrib_regression --table=tbl_cluster
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_cluster
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
 --
 -- after
 --
@@ -292,8 +402,30 @@ ERROR: relation "tbl_nn" must have a primary key or not-null unique keys
 ERROR: relation "tbl_uk" must have a primary key or not-null unique keys
 -- => ERROR
 \! pg_reorg --dbname=contrib_regression --no-order --table=tbl_nn_uk
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_nn_uk
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
 -- => OK
 \! pg_reorg --dbname=contrib_regression --no-order --table=tbl_pk_uk
+INFO: ---- reorganize one table with 7 steps. ----
+INFO: target table name    : tbl_pk_uk
+INFO: ---- STEP1. setup ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP2. copy tuples into temp table----
+INFO: ---- STEP3. create indexes ----
+INFO: ---- STEP4. apply logs  ----
+INFO: ---- STEP5. swap tables ----
+INFO: This needs EXCLUSIVE LOCK against the target table.
+INFO: ---- STEP6. drop old table----
+INFO: ---- STEP7. analyze ----
 -- => OK
 \! pg_reorg --dbname=contrib_regression --no-order --table=tbl_nn_puk
 ERROR: relation "tbl_nn_puk" must have a primary key or not-null unique keys

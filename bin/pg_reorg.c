@@ -189,7 +189,7 @@ reorg_all_databases(const char *orderby)
 
 		if (pgut_log_level >= INFO)
 		{
-			printf("%s: reorg database \"%s\"", PROGRAM_NAME, dbname);
+			printf("%s: reorg database \"%s\" \n", PROGRAM_NAME, dbname);
 			fflush(stdout);
 		}
 
@@ -394,8 +394,13 @@ reorg_one_table(const reorg_table *table, const char *orderby)
 
 	initStringInfo(&sql);
 
-	elog(DEBUG2, "---- reorg_one_table ----");
-	elog(DEBUG2, "target_name    : %s", table->target_name);
+	if(analyze) {
+		elog(INFO, "---- reorganize one table with 7 steps. ----");
+	} else {
+		elog(INFO, "---- reorganize one table with 6 steps. ----");
+	}
+		
+	elog(INFO, "target table name    : %s", table->target_name);
 	elog(DEBUG2, "target_oid     : %u", table->target_oid);
 	elog(DEBUG2, "target_toast   : %u", table->target_toast);
 	elog(DEBUG2, "target_tidx    : %u", table->target_tidx);
@@ -417,7 +422,8 @@ reorg_one_table(const reorg_table *table, const char *orderby)
 	/*
 	 * 1. Setup workspaces and a trigger.
 	 */
-	elog(DEBUG2, "---- setup ----");
+	elog(INFO, "---- STEP1. setup ----");
+	elog(INFO, "This needs EXCLUSIVE LOCK against the target table.");
 	lock_exclusive(utoa(table->target_oid, buffer), table->lock_table);
 
 	/*
@@ -451,7 +457,7 @@ reorg_one_table(const reorg_table *table, const char *orderby)
 	/*
 	 * 2. Copy tuples into temp table.
 	 */
-	elog(DEBUG2, "---- copy tuples ----");
+	elog(INFO, "---- STEP2. copy tuples into temp table----");
 
 	command("BEGIN ISOLATION LEVEL SERIALIZABLE", 0, NULL);
 	/* SET work_mem = maintenance_work_mem */
@@ -472,7 +478,7 @@ reorg_one_table(const reorg_table *table, const char *orderby)
 	/*
 	 * 3. Create indexes on temp table.
 	 */
-	elog(DEBUG2, "---- create indexes ----");
+	elog(INFO, "---- STEP3. create indexes ----");
 
 	params[0] = utoa(table->target_oid, buffer);
 	res = execute("SELECT indexrelid,"
@@ -515,6 +521,7 @@ reorg_one_table(const reorg_table *table, const char *orderby)
 	 * 4. Apply log to temp table until no tuples are left in the log
 	 * and all of the old transactions are finished.
 	 */
+	elog(INFO, "---- STEP4. apply logs  ----");
 	for (;;)
 	{
 		num = apply_log(table, APPLY_COUNT);
@@ -556,7 +563,8 @@ reorg_one_table(const reorg_table *table, const char *orderby)
 	/*
 	 * 5. Swap.
 	 */
-	elog(DEBUG2, "---- swap ----");
+	elog(INFO, "---- STEP5. swap tables ----");
+	elog(INFO, "This needs EXCLUSIVE LOCK against the target table. ");
 	lock_exclusive(utoa(table->target_oid, buffer), table->lock_table);
 	apply_log(table, 0);
 	params[0] = utoa(table->target_oid, buffer);
@@ -566,7 +574,7 @@ reorg_one_table(const reorg_table *table, const char *orderby)
 	/*
 	 * 6. Drop.
 	 */
-	elog(DEBUG2, "---- drop ----");
+	elog(INFO, "---- STEP6. drop old table----");
 
 	command("BEGIN ISOLATION LEVEL READ COMMITTED", 0, NULL);
 	params[0] = utoa(table->target_oid, buffer);
@@ -583,7 +591,7 @@ reorg_one_table(const reorg_table *table, const char *orderby)
 	 */
 	if (analyze)
 	{
-		elog(DEBUG2, "---- analyze ----");
+		elog(INFO, "---- STEP7. analyze ----");
 
 		command("BEGIN ISOLATION LEVEL READ COMMITTED", 0, NULL);
 		printfStringInfo(&sql, "ANALYZE %s", table->target_name);
