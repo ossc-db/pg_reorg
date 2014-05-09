@@ -303,12 +303,6 @@ Windows では Microsoft Visual C++ 2010 でビルドできます。
 msvc フォルダ内にプロジェクトファイルがあります。
 </p>
 
-<p>
-リグレッションテストを行うには、PostgreSQLサーバを動作させた上で、下記コマンドを実行します。
-</p>
-<pre>$ make installcheck
-</pre>
-
 <p>その後、データベースに関数を登録します。</p>
 <pre>$ pg_ctl start
 $ psql -f $PGSHARE/contrib/pg_reorg.sql -d your_database</pre>
@@ -316,6 +310,12 @@ $ psql -f $PGSHARE/contrib/pg_reorg.sql -d your_database</pre>
 <p>9.2以降ではCREATE EXTENSIONによる登録も可能です。</p>
 <pre>
 $ psql -c "CREATE EXTENSION pg_reorg" -d your_database</pre>
+
+<p>
+リグレッションテストを行うには、PostgreSQLサーバを動作させた上で、下記コマンドを実行します。
+</p>
+<pre>$ make installcheck
+</pre>
 
 <h2 id="requirement">動作環境</h2>
 <dl>
@@ -331,7 +331,7 @@ $ psql -c "CREATE EXTENSION pg_reorg" -d your_database</pre>
 <ul>
 <li>1.1.10 (2014-05-09)
 	<ul>
-		<li>バグ修正：再編中に実施されたオンラインからの更新レコードの一部が再編成後のテーブルに反映されない可能性がありました。</li>
+		<li>バグ修正：オンラインリクエストが高負荷な状態でpg_reorgを実行した際に、再編中に実施されたオンラインからの更新レコードの一部が再編成後のテーブルに反映されないことが非常にまれに起きる可能性がありました。</li>
 		<li>実行時の出力メッセージを見直し、対象テーブルや実行している処理についてINFOで出力するようにしました。</li>
 	</ul>
 </li>

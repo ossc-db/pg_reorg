@@ -289,11 +289,6 @@ $ make install</pre>
 You can also use Microsoft Visual C++ 2010 to build the program on Windows.
 There are project files in the msvc folder.
 </p>
-<p>
-If you want to check regression tests, do the below commands with PostgreSQL server running
-</p>
-<pre>$ make installcheck
-</pre>
 
 <p>Start PostgreSQL and execute the script to register functions to your database.</p>
 <pre>$ pg_ctl start
@@ -302,6 +297,12 @@ $ psql -f $PGSHARE/contrib/pg_reorg.sql -d your_database</pre>
 <p>You can also use CREATE EXTENSION.</p>
 <pre>
 $ psql -c "CREATE EXTENSION pg_reorg" -d your_database</pre>
+
+<p>
+If you want to check regression tests, do the below commands with PostgreSQL server running
+</p>
+<pre>$ make installcheck
+</pre>
 
 <h2 id="requirement">Requirements</h2>
 <dl>
@@ -317,7 +318,7 @@ required.</dd>
 <h2 id="releases">Releases</h2>
 <ul>
 <li>1.1.10 (2014-05-09)<ul>
-	<li>Bugfix: Some of records INSERT/UPDATE/DELETE by online transactions during re-organizing can be lost.</li>
+	<li>Bugfix: There was a rare possibility for data lost in doing pg_reorg during heavily online requests.</li>
 	<li>Modify output messages to show the taget table name and steps with INFO messages.</li>
 </ul></li>
 <li>1.1.9 (2013-11-21)<ul>
