@@ -54,14 +54,14 @@ where you can find <a href="http://pgfoundry.org/frs/?group_id=1000411">download
 
 <h2>Execution time</h2>
 <p>
-Here is a comparison between pg_reorg and clusterdb.
-Clusterdb is faster on not fragmented conditions, but pg_reorg is faster on fully fragmented conditions.
-Since reorganization is needed only if tables are fragmented, pg_reorg should be faster than clusterdb.
+Here shows the result of pg_reorg performance test.
+We have compared between non-fragmented table and fragmented table.
+Both tables have the same number of records, but fragmented table is bloated by UPDATEs.
 </p>
 
 <center>
 <div style="margin: 2em">
-<img src="result.png" />
+<img src="result_93.png" />
 </div>
 
 <table border="1">
@@ -74,48 +74,56 @@ Since reorganization is needed only if tables are fragmented, pg_reorg should be
 <tr>
 	<td rowspan="3">Hardware</td>
 	<td>CPU</td>
-	<td>2 * Xeon 5160 3.00GHz (Dual core)</td>
+	<td>Xeon E5645 2.4GHz (12 core) * 2</td>
 </tr>
 <tr>
 	<td>Memory</td>
-	<td>2GB</td>
+	<td>32GB</td>
 </tr>
 <tr>
 	<td>Storage</td>
-	<td>Ultra320 SCSI, 15000rpm (220GB)</td>
+	<td>SAS 10,000rpm 2TB * 4</td>
 </tr>
 <tr>
-	<td rowspan="4">Software</td>
+	<td rowspan="3">Software</td>
 	<td>OS</td>
-	<td>RHEL 5.2 (64bit) 2.6.18-92.el5</td>
+	<td>RHEL 6.2 (64bit)</td>
 </tr>
 <tr>
 	<td>DB</td>
-	<td>PostgreSQL 8.3.3</td>
+	<td>PostgreSQL 9.3.4</td>
 </tr>
 <tr>
 	<td>pg_reorg</td>
-	<td>1.0.0</td>
+	<td>1.1.10</td>
 </tr>
 <tr>
-	<td>clusterdb</td>
-	<td>clusterdb (PostgreSQL) 8.3.3</td>
-</tr>
-<tr>
-	<td rowspan="2">Data</td>
+	<td>Data</td>
 	<td>Scheme</td>
-	<td><code><pre>CREATE TABLE tbl (
- id bigserial PRIMARY KEY,
- seqkey timestamp NOT NULL,
- rndkey timestamp NOT NULL,
- filler char(75) NOT NULL
+	<td><code><pre>
+CREATE TABLE test (
+ id bigserial,
+ rndkey bigint NOT NULL,
+ dummy1 bigint NOT NULL,
+ dummy2 bigint NOT NULL,
+ dummy3 bigint NOT NULL,
+ dummy4 bigint NOT NULL,
+ dummy5 bigint NOT NULL,
+ dummy6 bigint NOT NULL,
+ dummy7 bigint NOT NULL,
+ dummy8 timestamp NOT NULL,
+ dummy9 timestamp NOT NULL,
+ dummy10 timestamp NOT NULL,
+ dummy11 timestamp NOT NULL,
+ dummy12 timestamp NOT NULL,
+ dummy13 timestamp NOT NULL,
+ dummy14 timestamp NOT NULL,
+ filler char(128) NOT NULL
 );
-CREATE INDEX idx_seq ON tbl (seqkey);
-CREATE INDEX idx_rnd ON tbl (rndkey);</pre></code></td>
-</tr>
-<tr>
-	<td>Rows</td>
-	<td>16.5 M rows (2GB)</td>
+
+CREATE INDEX test_idx_rndkey ON test (rndkey);
+ALTER TABLE test CLUSTER ON test_idx_rndkey;
+    </pre></code></td>
 </tr>
 </table>
 
@@ -123,8 +131,7 @@ CREATE INDEX idx_rnd ON tbl (rndkey);</pre></code></td>
 
 <hr />
 <p class="footer">
-Portions Copyright (c) 2008-2011, NIPPON TELEGRAPH AND TELEPHONE CORPORATION<br />
-Portions Copyright (c) 2011, Itagaki Takahiro
+Portions Copyright (c) 2008-2014, NIPPON TELEGRAPH AND TELEPHONE CORPORATION<br />
 </p>
 
 <script type="text/javascript">

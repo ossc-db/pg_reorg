@@ -52,14 +52,12 @@ VACUUM を行うスクリプトが付属しており、"より良い vacuumdb" �
 
 <h2>実行時間</h2>
 <p>
-pg_reorg とclusterdb の比較に示します。
-断片化のないソートされた状態 (not fragmented) では clusterdb のほうが高速ですが、完全に断片化した状態 (fully fragmented) では pg_reorg が大幅に高速です。
-一般的に、再編成は断片化が進行した状態で実施されることを考えると、pg_reorg は clusterdb よりも実行時間が短いと言えます。
+pg_reorgの実行時間について検証結果を以下のグラフに示します。同じレコード数のテーブルに対して、断片化が発生していない場合と、断片化が発生して容量が2倍程度に肥大化している場合について複数回計測を行い、実行時間の平均値をグラフにしています。
 </p>
 
 <center>
 <div style="margin: 2em">
-<img src="result.png" />
+<img src="result_93.png" />
 </div>
 
 <table border="1">
@@ -72,48 +70,56 @@ pg_reorg とclusterdb の比較に示します。
 <tr>
 	<td rowspan="3">ハードウェア</td>
 	<td>CPU</td>
-	<td>2 × Xeon 5160 3.00GHz (Dual core)</td>
+	<td>Xeon E5645 2.4GHz (12 core) * 2</td>
 </tr>
 <tr>
 	<td>メモリ</td>
-	<td>2GB</td>
+	<td>32GB</td>
 </tr>
 <tr>
-	<td>ストレージ</td>
-	<td>Ultra320 SCSI, 15000rpm (220GB)</td>
+	<td>HDD</td>
+	<td>SAS 10,000rpm 2TB * 4</td>
 </tr>
 <tr>
-	<td rowspan="4">ソフトウェア</td>
+	<td rowspan="3">ソフトウェア</td>
 	<td>OS</td>
-	<td>RHEL 5.2 (64bit) 2.6.18-92.el5</td>
+	<td>RHEL 6.2 (64bit)</td>
 </tr>
 <tr>
 	<td>DB</td>
-	<td>PostgreSQL 8.3.3</td>
+	<td>PostgreSQL 9.3.4</td>
 </tr>
 <tr>
 	<td>pg_reorg</td>
-	<td>1.0.0</td>
+	<td>1.1.10</td>
 </tr>
 <tr>
-	<td>clusterdb</td>
-	<td>clusterdb (PostgreSQL) 8.3.3</td>
-</tr>
-<tr>
-	<td rowspan="2">データ</td>
+	<td>データ</td>
 	<td>スキーマ</td>
-	<td><code><pre>CREATE TABLE tbl (
- id bigserial PRIMARY KEY,
- seqkey timestamp NOT NULL,
- rndkey timestamp NOT NULL,
- filler char(75) NOT NULL
+	<td><code><pre>
+CREATE TABLE test (
+ id bigserial,
+ rndkey bigint NOT NULL,
+ dummy1 bigint NOT NULL,
+ dummy2 bigint NOT NULL,
+ dummy3 bigint NOT NULL,
+ dummy4 bigint NOT NULL,
+ dummy5 bigint NOT NULL,
+ dummy6 bigint NOT NULL,
+ dummy7 bigint NOT NULL,
+ dummy8 timestamp NOT NULL,
+ dummy9 timestamp NOT NULL,
+ dummy10 timestamp NOT NULL,
+ dummy11 timestamp NOT NULL,
+ dummy12 timestamp NOT NULL,
+ dummy13 timestamp NOT NULL,
+ dummy14 timestamp NOT NULL,
+ filler char(128) NOT NULL
 );
-CREATE INDEX idx_seq ON tbl (seqkey);
-CREATE INDEX idx_rnd ON tbl (rndkey);</pre></code></td>
-</tr>
-<tr>
-	<td>件数</td>
-	<td>1650万件 (約2GB)</td>
+
+CREATE INDEX test_idx_rndkey ON test (rndkey);
+ALTER TABLE test CLUSTER ON test_idx_rndkey;
+    </pre></code></td>
 </tr>
 </table>
 
@@ -122,8 +128,7 @@ CREATE INDEX idx_rnd ON tbl (rndkey);</pre></code></td>
 
 <hr />
 <p class="footer">
-Portions Copyright (c) 2008-2011, NIPPON TELEGRAPH AND TELEPHONE CORPORATION<br />
-Portions Copyright (c) 2011, Itagaki Takahiro
+Portions Copyright (c) 2008-2014, NIPPON TELEGRAPH AND TELEPHONE CORPORATION<br />
 </p>
 
 <script type="text/javascript">
