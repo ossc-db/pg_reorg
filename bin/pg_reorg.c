@@ -26,23 +26,58 @@ const char *PROGRAM_EMAIL	= "reorg-general@lists.pgfoundry.org";
  */
 #define APPLY_COUNT		1000
 
-/* The '1/1, -1/0' lock skipped is from the bgwriter on newly promoted
- * servers. See GH ticket #1.
+/*
+ * The SQLs SQL_XID_SNAPSHOT_* are used to obtain a list of virtual
+ * transaction ids or transaction ids which is later used in SQLs
+ * SQL_XID_ALIVE_* (see below) for waiting on them to finish.
+ *
+ * SQL_XID_SNAPSHOT_* select only those virtual transaction ids or
+ * transaction ids which are being executed in a session connected
+ * to the database to which pg_reorg is also connected. Previously,
+ * pg_reorg would wait for transactions related to objects of 
+ * different databases.
+ *
+ * NOTE: The '1/1, -1/0' lock skipped is from the bgwriter on newly
+ * promoted servers. See GH ticket #1.
  */
+
 #define SQL_XID_SNAPSHOT_80300 \
-	"SELECT reorg.array_accum(virtualtransaction) FROM pg_locks"\
-	" WHERE locktype = 'virtualxid' AND pid <> pg_backend_pid()"\
-	" AND (virtualxid, virtualtransaction) <> ('1/1', '-1/0')"
+	"SELECT"\
+		" reorg.array_accum(virtualtransaction)"\
+	" FROM pg_locks l"\
+		" JOIN pg_database d"\
+		" ON d.oid=l.database"\
+		" AND d.datname=current_database()"\
+	" WHERE"\
+		" pid <> pg_backend_pid()"\
+		" AND (virtualxid, virtualtransaction) <> ('1/1', '-1/0')"
 #define SQL_XID_SNAPSHOT_80200 \
-	"SELECT reorg.array_accum(transactionid) FROM pg_locks"\
-	" WHERE locktype = 'transactionid' AND pid <> pg_backend_pid()"
+	"SELECT"\
+		" reorg.array_accum(transactionid)"\
+	" FROM pg_locks l"\
+		" JOIN pg_stat_activity s"\
+		" ON s.pid=l.pid"\
+	" WHERE"\
+		" locktype = 'transactionid'"\
+		" AND pid <> pg_backend_pid()"\
+		" AND s.datname=current_database()"
 
 #define SQL_XID_ALIVE_80300 \
-	"SELECT pid FROM pg_locks WHERE locktype = 'virtualxid'"\
-	" AND pid <> pg_backend_pid() AND virtualtransaction = ANY($1)"
+	"SELECT"\
+		" pid"\
+	" FROM pg_locks"\
+	" WHERE"\
+	" locktype = 'virtualxid'"\
+		" AND pid <> pg_backend_pid()"\
+		" AND virtualtransaction = ANY($1)"
 #define SQL_XID_ALIVE_80200 \
-	"SELECT pid FROM pg_locks WHERE locktype = 'transactionid'"\
-	" AND pid <> pg_backend_pid() AND transactionid = ANY($1)"
+	"SELECT"\
+		" pid"\
+	" FROM pg_locks"\
+	" WHERE"\
+		" locktype = 'transactionid'"\
+		" AND pid <> pg_backend_pid()"\
+		" AND transactionid = ANY($1)"
 
 #define SQL_XID_SNAPSHOT \
 	(PQserverVersion(connection) >= 80300 \
