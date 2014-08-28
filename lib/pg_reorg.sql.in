@@ -39,8 +39,8 @@ $$
 $$
 LANGUAGE sql STABLE STRICT;
 
-CREATE FUNCTION reorg.get_index_keys(oid, oid) RETURNS text AS
-'MODULE_PATHNAME', 'reorg_get_index_keys'
+CREATE FUNCTION reorg.get_order_by(oid, oid) RETURNS text AS
+'MODULE_PATHNAME', 'reorg_get_order_by'
 LANGUAGE C STABLE STRICT;
 
 CREATE FUNCTION reorg.get_create_index_type(oid, name) RETURNS text AS
@@ -169,7 +169,7 @@ CREATE VIEW reorg.tables AS
 		 reorg.get_drop_columns(R.oid, 'reorg.table_' || R.oid) AS drop_columns,
          'DELETE FROM reorg.log_' || R.oid AS delete_log,
          'LOCK TABLE ' || reorg.oid2text(R.oid) || ' IN ACCESS EXCLUSIVE MODE' AS lock_table,
-         reorg.get_index_keys(CK.indexrelid, R.oid) AS ckey,
+         reorg.get_order_by(CK.indexrelid, R.oid) AS ckey,
          'SELECT * FROM reorg.log_' || R.oid || ' ORDER BY id LIMIT $1' AS sql_peek,
          'INSERT INTO reorg.table_' || R.oid || ' VALUES ($1.*)' AS sql_insert,
          'DELETE FROM reorg.table_' || R.oid || ' WHERE ' || reorg.get_compare_pkey(PK.indexrelid, '$1') AS sql_delete,

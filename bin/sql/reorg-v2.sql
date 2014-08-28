@@ -178,3 +178,19 @@ CREATE UNIQUE INDEX tbl_nn_puk_pcol1_idx ON tbl_nn_puk(col1) WHERE col1 < 10;
 -- => OK
 \! pg_reorg --dbname=contrib_regression --no-order --table=tbl_nn_puk
 -- => ERROR
+
+--
+-- pg_repack issue #3
+--
+CREATE TABLE issue3 (col1 int NOT NULL, col2 text NOT NULL);
+CREATE UNIQUE INDEX issue3_idx1 ON issue3 (col1, col2 DESC);
+CREATE UNIQUE INDEX issue3_idx2 ON issue3 (col1 DESC, col2 text_pattern_ops);
+CREATE UNIQUE INDEX issue3_idx3 ON issue3 (col1 DESC, col2 DESC);
+CREATE UNIQUE INDEX issue3_idx4 ON issue3 (col1 NULLS FIRST, col2 text_pattern_ops DESC NULLS LAST);
+CREATE UNIQUE INDEX issue3_idx5 ON issue3 (col1 DESC NULLS FIRST, col2 COLLATE "POSIX" DESC);
+
+SELECT reorg.get_order_by('issue3_idx1'::regclass::oid, 'issue3'::regclass::oid);
+SELECT reorg.get_order_by('issue3_idx2'::regclass::oid, 'issue3'::regclass::oid);
+SELECT reorg.get_order_by('issue3_idx3'::regclass::oid, 'issue3'::regclass::oid);
+SELECT reorg.get_order_by('issue3_idx4'::regclass::oid, 'issue3'::regclass::oid);
+SELECT reorg.get_order_by('issue3_idx5'::regclass::oid, 'issue3'::regclass::oid);
