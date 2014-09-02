@@ -72,43 +72,11 @@ sql/reorg-9.2.sql:
 sql/reorg-9.3.sql:
 	cp sql/reorg-v2.sql sql/reorg-9.3.sql
 
-expected/init.out: expected/init-$(MAJORVERSION).out
-	cp expected/init-$(MAJORVERSION).out expected/init.out
-expected/init-8.3.out:
-	cp expected/init-legacy.out expected/init-8.3.out
-expected/init-8.4.out:
-	cp expected/init-legacy.out expected/init-8.4.out
-expected/init-9.0.out:
-	cp expected/init-legacy.out expected/init-9.0.out
-expected/init-9.1.out:
-	cp expected/init-extension.out expected/init-9.1.out
-expected/init-9.2.out:
-	cp expected/init-extension.out expected/init-9.2.out
-expected/init-9.3.out:
-	cp expected/init-extension.out expected/init-9.3.out
-
-expected/reorg.out: expected/reorg-$(MAJORVERSION).out
-	cp expected/reorg-$(MAJORVERSION).out expected/reorg.out
-expected/reorg-8.3.out:
-	cp expected/reorg-v1.out expected/reorg-8.3.out
-expected/reorg-8.4.out:
-	cp expected/reorg-v1.out expected/reorg-8.4.out
-expected/reorg-9.0.out:
-	cp expected/reorg-v1.out expected/reorg-9.0.out
-expected/reorg-9.1.out:
-	cp expected/reorg-v2.out expected/reorg-9.1.out
-expected/reorg-9.2.out:
-	cp expected/reorg-v2.out expected/reorg-9.2.out
-expected/reorg-9.3.out:
-	cp expected/reorg-v2.out expected/reorg-9.3.out
-
-installcheck: sql/init.sql sql/reorg.sql expected/init.out expected/reorg.out
+installcheck: sql/init.sql sql/reorg.sql 
 
 clean: subclean
 
 subclean:
 	rm -f sql/init.sql sql/init-{8.3,8.4,9.0,9.1,9.2,9.3}.sql
 	rm -f sql/reorg.sql sql/reorg-{8.3,8.4,9.0,9.1,9.2,9.3}.sql
-	rm -f expected/init.out expected/init-{8.3,8.4,9.0,9.1,9.2,9.3}.out
-	rm -f expected/reorg.out expected/reorg-{8.3,8.4,9.0,9.1,9.2,9.3}.out
 
