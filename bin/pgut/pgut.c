@@ -785,7 +785,11 @@ void
 elog(int elevel, const char *fmt, ...)
 {
 	va_list			args;
+#if PG_VERSION_NUM < 90400
 	bool			ok;
+#else
+	int				needed;
+#endif
 	size_t			len;
 	pgutErrorData  *edata;
 
@@ -797,10 +801,17 @@ elog(int elevel, const char *fmt, ...)
 	do
 	{
 		va_start(args, fmt);
+#if PG_VERSION_NUM < 90400
 		ok = appendStringInfoVA(&edata->msg, fmt, args);
 		va_end(args);
 	} while (!ok);
+#else
+		needed = appendStringInfoVA(&edata->msg, fmt, args);
+		va_end(args);
+	} while (needed <= 0);
+#endif
 	len = strlen(fmt);
+
 	if (len > 2 && strcmp(fmt + len - 2, ": ") == 0)
 		appendStringInfoString(&edata->msg, strerror(edata->save_errno));
 	trimStringBuffer(&edata->msg);
@@ -957,14 +968,24 @@ errmsg(const char *fmt,...)
 	pgutErrorData  *edata = getErrorData();
 	va_list			args;
 	size_t			len;
+#if PG_VERSION_NUM < 90400
 	bool			ok;
+#else
+	int				needed;
+#endif
 
 	do
 	{
 		va_start(args, fmt);
+#if PG_VERSION_NUM < 90400
 		ok = appendStringInfoVA(&edata->msg, fmt, args);
 		va_end(args);
 	} while (!ok);
+#else
+		needed = appendStringInfoVA(&edata->msg, fmt, args);
+		va_end(args);
+	} while (needed <= 0);
+#endif
 	len = strlen(fmt);
 	if (len > 2 && strcmp(fmt + len - 2, ": ") == 0)
 		appendStringInfoString(&edata->msg, strerror(edata->save_errno));
@@ -978,14 +999,25 @@ errdetail(const char *fmt,...)
 {
 	pgutErrorData  *edata = getErrorData();
 	va_list			args;
+#if PG_VERSION_NUM < 90400
 	bool			ok;
+#else
+	int				needed;
+#endif
 
 	do
 	{
 		va_start(args, fmt);
+#if PG_VERSION_NUM < 90400
 		ok = appendStringInfoVA(&edata->detail, fmt, args);
 		va_end(args);
 	} while (!ok);
+#else
+		needed = appendStringInfoVA(&edata->detail, fmt, args);
+		va_end(args);
+	} while (needed <= 0);
+#endif
+
 	trimStringBuffer(&edata->detail);
 
 	return 0;	/* return value does not matter */

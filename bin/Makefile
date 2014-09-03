@@ -56,6 +56,8 @@ sql/init-9.2.sql:
 	cp sql/init-extension.sql sql/init-9.2.sql
 sql/init-9.3.sql:
 	cp sql/init-extension.sql sql/init-9.3.sql
+sql/init-9.4.sql:
+	cp sql/init-extension.sql sql/init-9.4.sql
 
 sql/reorg.sql: sql/reorg-$(MAJORVERSION).sql
 	cp sql/reorg-$(MAJORVERSION).sql sql/reorg.sql
@@ -71,12 +73,14 @@ sql/reorg-9.2.sql:
 	cp sql/reorg-v2.sql sql/reorg-9.2.sql
 sql/reorg-9.3.sql:
 	cp sql/reorg-v2.sql sql/reorg-9.3.sql
+sql/reorg-9.4.sql:
+	cp sql/reorg-v2.sql sql/reorg-9.4.sql
 
 installcheck: sql/init.sql sql/reorg.sql 
 
 clean: subclean
 
 subclean:
-	rm -f sql/init.sql sql/init-{8.3,8.4,9.0,9.1,9.2,9.3}.sql
-	rm -f sql/reorg.sql sql/reorg-{8.3,8.4,9.0,9.1,9.2,9.3}.sql
+	rm -f sql/init.sql sql/init-{8.3,8.4,9.0,9.1,9.2,9.3,9.4}.sql
+	rm -f sql/reorg.sql sql/reorg-{8.3,8.4,9.0,9.1,9.2,9.3,9.4}.sql
 

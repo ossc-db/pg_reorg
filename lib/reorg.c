@@ -693,12 +693,12 @@ reorg_swap(PG_FUNCTION_ARGS)
 	/* swap relfilenode and dependencies for tables. */
 	values[0] = ObjectIdGetDatum(oid);
 	execute_with_args(SPI_OK_SELECT,
-		"SELECT X.reltoastrelid, TX.reltoastidxid, X.relowner,"
-		"       Y.oid, Y.reltoastrelid, TY.reltoastidxid, Y.relowner"
-		"  FROM pg_catalog.pg_class X LEFT JOIN pg_catalog.pg_class TX"
-		"         ON X.reltoastrelid = TX.oid,"
-		"       pg_catalog.pg_class Y LEFT JOIN pg_catalog.pg_class TY"
-		"         ON Y.reltoastrelid = TY.oid"
+		"SELECT X.reltoastrelid, TX.indexrelid, X.relowner,"
+		"       Y.oid, Y.reltoastrelid, TY.indexrelid, Y.relowner"
+		"  FROM pg_catalog.pg_class X LEFT JOIN pg_catalog.pg_index TX"
+		"         ON X.reltoastrelid = TX.indrelid,"
+		"       pg_catalog.pg_class Y LEFT JOIN pg_catalog.pg_index TY"
+		"         ON Y.reltoastrelid = TY.indrelid"
 		" WHERE X.oid = $1"
 		"   AND Y.oid = ('reorg.table_' || X.oid)::regclass",
 		1, argtypes, values, nulls);
