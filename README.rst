@@ -1,6 +1,9 @@
 pg_reorg -- UNOFFICIAL REPOSITORY
 =================================
 
+* maint_1.1 branch: .. image:: https://travis-ci.org/bwtakacy/pg_reorg.svg?branch=maint_1.1
+    :target: https://travis-ci.org/bwtakacy/pg_reorg
+
 This is NOT the official pg_reorg repository. Official development is
 currently on pgFoundry: http://pgfoundry.org/projects/reorg
 
