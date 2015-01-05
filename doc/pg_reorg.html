@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<h1 id="pg_reorg">pg_reorg 1.1.10</h1>
+<h1 id="pg_reorg">pg_reorg 1.1.11</h1>
 <div class="navigation">
   <a href="index.html">Top</a> &gt;
   <a href="pg_reorg.html">pg_reorg</a>
@@ -317,6 +317,11 @@ required.</dd>
 
 <h2 id="releases">Releases</h2>
 <ul>
+<li>1.1.11 (2015-01-07)<ul>
+	<li>Supports PostgreSQL 9.4</li>
+	<li>Change not to wait for transactions in different databases.</li>
+	<li>Support for DESC, NULLS FIRST/LAST, COLLATE to index keys.</li>
+</ul></li>
 <li>1.1.10 (2014-05-09)<ul>
 	<li>Bugfix: There was a rare possibility for data lost in doing pg_reorg during heavily online requests.</li>
 	<li>Modify output messages to show the taget table name and steps with INFO messages.</li>
@@ -346,8 +351,8 @@ required.</dd>
 
 <div>
 <p class="footer">
-Portions Copyright (c) 2008-2014, NIPPON TELEGRAPH AND TELEPHONE CORPORATION<br>
-Portions Copyright (c) 2014, Takashi Ohnishi
+Portions Copyright (c) 2008-2015, NIPPON TELEGRAPH AND TELEPHONE CORPORATION<br>
+Portions Copyright (c) 2015, Takashi Ohnishi
 </p>
 </div>
 
