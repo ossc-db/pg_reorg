@@ -2,7 +2,7 @@
 # Copyright(C) 2009-2015 NIPPON TELEGRAPH AND TELEPHONE CORPORATION
 %define sname	pg_reorg
 
-%define _pgdir   /usr/pgsql-9.1
+%define _pgdir   /usr/pgsql-9.4
 %define _bindir  %{_pgdir}/bin
 %define _libdir  %{_pgdir}/lib
 %define _datadir %{_pgdir}/share
@@ -17,8 +17,8 @@ Source0:	%{sname}-%{version}.tar.gz
 URL:		http://pgfoundry.org/projects/%{sname}/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 
-BuildRequires:	postgresql91-devel, postgresql91
-Requires:	postgresql91, postgresql91-libs
+BuildRequires:	postgresql94-devel, postgresql94
+Requires:	postgresql94, postgresql94-libs
 
 %description 	
 pg_reorg can re-organize tables on a postgres database without any locks so that 
