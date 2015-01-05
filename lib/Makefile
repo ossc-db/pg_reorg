@@ -1,7 +1,7 @@
 #
 # pg_reorg: lib/Makefile
 #
-#  Portions Copyright (c) 2008-2012, NIPPON TELEGRAPH AND TELEPHONE CORPORATION
+#  Portions Copyright (c) 2008-2015, NIPPON TELEGRAPH AND TELEPHONE CORPORATION
 #  Portions Copyright (c) 2011, Itagaki Takahiro
 #
 MODULE_big = pg_reorg
