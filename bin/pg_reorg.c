@@ -133,6 +133,7 @@ static Oid getoid(PGresult *res, int row, int col);
 static void lock_exclusive(const char *relid, const char *lock_query);
 
 #define SQLSTATE_INVALID_SCHEMA_NAME	"3F000"
+#define SQLSTATE_UNDEFINED_TABLE		"42P01"
 #define SQLSTATE_QUERY_CANCELED			"57014"
 
 static bool sqlstate_equals(PGresult *res, const char *state)
@@ -304,7 +305,11 @@ reorg_one_database(const char *orderby, const char *table)
 
 	if (PQresultStatus(res) != PGRES_TUPLES_OK)
 	{
+#if PG_VERSION_NUM < 90300
 		if (sqlstate_equals(res, SQLSTATE_INVALID_SCHEMA_NAME))
+#else
+		if (sqlstate_equals(res, SQLSTATE_UNDEFINED_TABLE))
+#endif
 		{
 			/* Schema reorg does not exist. Skip the database. */
 			ret = false;
