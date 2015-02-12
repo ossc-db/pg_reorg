@@ -34,7 +34,7 @@ before_install:
 before_script:
   - git clone https://github.com/bwtakacy/pg_reorg.git pg_reorg
   - cd pg_reorg && git describe --alway
-  - git checkout -b dont_fail_to_skip origin/dont_fail_to_skip
+  - git checkout -b maint_1.1 origin/maint_1.1
   - make
   - sudo make install
 
