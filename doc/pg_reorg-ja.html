@@ -214,6 +214,7 @@ DEBUG, INFO, NOTICE, WARNING, ERROR, LOG, FATAL, PANIC から選択します。
 想像されるエラー原因と対処を示します。</p>
 <p>致命的なエラーで終了した場合、手動によるクリーンアップを行う必要があります。
 クリーンアップは、エラーが発生したデータベースに対して、$PGHOME/share/contrib/uninstall_pg_reorg.sql を実行し、その後、$PGHOME/share/contrib/pg_reorg.sql を実行します。</p>
+<p>PostgreSQL 9.2 以降では、エラーが発生したデータベースに接続し、DROP EXTENSION pg_reorg CASCADE を実行し、その後、CREATE EXTENSION pg_reorg を実行することでもクリーンアップが可能です。</p>
 
 <dl>
 <dt>pg_reorg : reorg database "template1" ... skipped</dt>

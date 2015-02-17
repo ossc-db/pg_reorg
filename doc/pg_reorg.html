@@ -204,6 +204,8 @@ The default is INFO.</dd>
 The following list shows the cause of errors.</p>
 <p>You need to cleanup by hand after fatal errors.
 To cleanup, execute $PGHOME/share/contrib/uninstall_pg_reorg.sql to the database where the error occured and then execute $PGHOME/share/contrib/pg_reorg.sql. (Do uninstall and reinstall.)</p>
+<p>From PostgreSQL 9.2, you can also use 'DROP EXTENSION pg_reorg CASCADE;' and then 'CREATE EXTENSION pg_reorg;' to cleanup.</p>
+
 
 <dl>
 <dt>pg_reorg : reorg database "template1" ... skipped</dt>
