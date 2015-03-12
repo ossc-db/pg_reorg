@@ -696,9 +696,9 @@ reorg_swap(PG_FUNCTION_ARGS)
 		"SELECT X.reltoastrelid, TX.indexrelid, X.relowner,"
 		"       Y.oid, Y.reltoastrelid, TY.indexrelid, Y.relowner"
 		"  FROM pg_catalog.pg_class X LEFT JOIN pg_catalog.pg_index TX"
-		"         ON X.reltoastrelid = TX.indrelid,"
+		"         ON X.reltoastrelid = TX.indrelid AND TX.indisvalid,"
 		"       pg_catalog.pg_class Y LEFT JOIN pg_catalog.pg_index TY"
-		"         ON Y.reltoastrelid = TY.indrelid"
+		"         ON Y.reltoastrelid = TY.indrelid AND TY.indisvalid"
 		" WHERE X.oid = $1"
 		"   AND Y.oid = ('reorg.table_' || X.oid)::regclass",
 		1, argtypes, values, nulls);

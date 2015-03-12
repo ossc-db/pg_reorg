@@ -159,7 +159,10 @@ CREATE VIEW reorg.tables AS
   SELECT R.oid::regclass AS relname,
          R.oid AS relid,
          R.reltoastrelid AS reltoastrelid,
-         CASE WHEN R.reltoastrelid = 0 THEN 0 ELSE (SELECT indexrelid FROM pg_index WHERE indrelid = R.reltoastrelid) END AS reltoastidxid,
+         CASE WHEN R.reltoastrelid = 0 THEN 0 ELSE (
+			SELECT indexrelid FROM pg_index
+			WHERE indrelid = R.reltoastrelid
+			AND indisvalid) END AS reltoastidxid,
          PK.indexrelid AS pkid,
          CK.indexrelid AS ckid,
          reorg.get_create_index_type(PK.indexrelid, 'reorg.pk_' || R.oid) AS create_pktype,
