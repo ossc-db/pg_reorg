@@ -198,4 +198,4 @@ SELECT reorg.get_order_by('issue3_idx5'::regclass::oid, 'issue3'::regclass::oid)
 --
 -- pg_reorg --all can skip databases where pg_reorg is not registered
 --
-\! pg_reorg --all -E FATAL
+\! pg_reorg --all -E FATAL | grep skipped | uniq
