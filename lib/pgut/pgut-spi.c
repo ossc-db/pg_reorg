@@ -24,7 +24,15 @@ termStringInfo(StringInfo str)
 		pfree(str->data);
 }
 
-/* appendStringInfoVA + automatic buffer extension */
+/*
+ * appendStringInfoVA_s - appendStringInfoVA + buffer extension
+ *
+ * Note:
+ * This is a server-side function (part of pg_reorg.so). There exists
+ * a similar function on the client side, too. To avoid confusion in
+ * function names, this has been named with the suffix "_s" and client-
+ * side function uses the suffix "_c" in its name.
+ */
 static void
 appendStringInfoVA_s(StringInfo str, const char *fmt, va_list args)
 {

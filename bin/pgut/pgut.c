@@ -785,11 +785,7 @@ void
 elog(int elevel, const char *fmt, ...)
 {
 	va_list			args;
-#if PG_VERSION_NUM < 90400
 	bool			ok;
-#else
-	int				needed;
-#endif
 	size_t			len;
 	pgutErrorData  *edata;
 
@@ -801,15 +797,10 @@ elog(int elevel, const char *fmt, ...)
 	do
 	{
 		va_start(args, fmt);
-#if PG_VERSION_NUM < 90400
-		ok = appendStringInfoVA(&edata->msg, fmt, args);
+		ok = appendStringInfoVA_c(&edata->msg, fmt, args);
 		va_end(args);
 	} while (!ok);
-#else
-		needed = appendStringInfoVA(&edata->msg, fmt, args);
-		va_end(args);
-	} while (needed <= 0);
-#endif
+
 	len = strlen(fmt);
 
 	if (len > 2 && strcmp(fmt + len - 2, ": ") == 0)
@@ -968,24 +959,15 @@ errmsg(const char *fmt,...)
 	pgutErrorData  *edata = getErrorData();
 	va_list			args;
 	size_t			len;
-#if PG_VERSION_NUM < 90400
 	bool			ok;
-#else
-	int				needed;
-#endif
 
 	do
 	{
 		va_start(args, fmt);
-#if PG_VERSION_NUM < 90400
-		ok = appendStringInfoVA(&edata->msg, fmt, args);
+		ok = appendStringInfoVA_c(&edata->msg, fmt, args);
 		va_end(args);
 	} while (!ok);
-#else
-		needed = appendStringInfoVA(&edata->msg, fmt, args);
-		va_end(args);
-	} while (needed <= 0);
-#endif
+
 	len = strlen(fmt);
 	if (len > 2 && strcmp(fmt + len - 2, ": ") == 0)
 		appendStringInfoString(&edata->msg, strerror(edata->save_errno));
@@ -999,24 +981,14 @@ errdetail(const char *fmt,...)
 {
 	pgutErrorData  *edata = getErrorData();
 	va_list			args;
-#if PG_VERSION_NUM < 90400
 	bool			ok;
-#else
-	int				needed;
-#endif
 
 	do
 	{
 		va_start(args, fmt);
-#if PG_VERSION_NUM < 90400
-		ok = appendStringInfoVA(&edata->detail, fmt, args);
+		ok = appendStringInfoVA_c(&edata->detail, fmt, args);
 		va_end(args);
 	} while (!ok);
-#else
-		needed = appendStringInfoVA(&edata->detail, fmt, args);
-		va_end(args);
-	} while (needed <= 0);
-#endif
 
 	trimStringBuffer(&edata->detail);
 
@@ -1198,10 +1170,16 @@ exit_or_abort(int exitcode)
 }
 
 /*
- * unlike the server code, this function automatically extend the buffer.
+ * appendStringInfoVA_c - appendStringInfoVA + automatic buffer extension
+ *
+ * Note:
+ * This is a client-side function (part of pg_reorg binary). There exists
+ * a similar function on the server side, too. To avoid confusion in
+ * function names, this has been named with the suffix "_c" and server-
+ * side function uses the suffix "_s" in its name.
  */
 bool
-appendStringInfoVA(StringInfo str, const char *fmt, va_list args)
+appendStringInfoVA_c(StringInfo str, const char *fmt, va_list args)
 {
 	size_t		avail;
 	int			nprinted;
