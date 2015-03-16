@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<h1 id="pg_reorg">pg_reorg 1.1.11</h1>
+<h1 id="pg_reorg">pg_reorg 1.1.12</h1>
 <div class="navigation">
   <a href="index.html">Top</a> &gt;
   <a href="pg_reorg.html">pg_reorg</a>
@@ -309,8 +309,8 @@ If you want to check regression tests, do the below commands with PostgreSQL ser
 <h2 id="requirement">Requirements</h2>
 <dl>
 <dt>PostgreSQL versions</dt>
-<dd>PostgreSQL 8.2, 8.3, 8.4, 9.0, 9.1, 9.2, 9.3, 9.4</dd>
-<dt>OS</dt><dd>RHEL 5/6/7</dd>
+<dd>PostgreSQL 9.0, 9.1, 9.2, 9.3, 9.4</dd>
+<dt>OS</dt><dd>RHEL 6/7</dd>
 <dt>Disks</dt><dd>Requires free disk space twice as large as the target
 table(s) and indexes. For example, if the total size of the tables and
 indexes to be reorganized is 1GB, an additional 2GB of disk space is
@@ -319,6 +319,11 @@ required.</dd>
 
 <h2 id="releases">Releases</h2>
 <ul>
+<li>1.1.12 (2015-03-16)<ul>
+	<li>Drop supporting PostgreSQL 8.2, 8.3, 8.4.</li>
+    <li>Fix failure to skip database where pg_reorg is not installed in pg_reorg --all.</li>
+    <li>Fix unsafe handling of TOAST indexes on PostgreSQL 9.4.</li>
+</ul></li>
 <li>1.1.11 (2015-01-07)<ul>
 	<li>Supports PostgreSQL 9.4</li>
 	<li>Change not to wait for transactions in different databases.</li>

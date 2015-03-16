@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<h1 id="pg_reorg">pg_reorg 1.1.11</h1>
+<h1 id="pg_reorg">pg_reorg 1.1.12</h1>
 <div class="navigation">
   <a href="index-ja.html">Top</a> &gt;
   <a href="pg_reorg-ja.html">pg_reorg</a>
@@ -321,15 +321,22 @@ $ psql -c "CREATE EXTENSION pg_reorg" -d your_database</pre>
 <h2 id="requirement">動作環境</h2>
 <dl>
 <dt>PostgreSQLバージョン</dt>
-<dd>PostgreSQL 8.2, 8.3, 8.4, 9.0, 9.1, 9.2, 9.3, 9.4</dd>
+<dd>PostgreSQL 9.0, 9.1, 9.2, 9.3, 9.4</dd>
 <dt>OS</dt>
-<dd>RHEL 5/6/7</dd>
+<dd>RHEL 6/7</dd>
 <dt>ディスク容量</dt>
 <dd>処理対象のテーブル、インデックスサイズの2倍以上のディスク空き容量 (対象が1GBならば、さらに追加で2GB)</dd>
 </dl>
 
 <h2 id="releases">更新履歴</h2>
 <ul>
+<li>1.1.12 (2015-03-16)
+	<ul>
+		<li>PostgreSQL 8.2, 8.3, 8.4のサポートを打ち切りました。</li>
+		<li>--allオプションを指定した際に、pg_reorgがインストールされていないデータベースをスキップする機能が動作しない不具合がありました。</li>
+        <li>PostgreSQL 9.4におけるTOASTされたテーブルのインデックスの扱いが安全ではありませんでした。これにより指定したインデックスを用いた再編成が実現できない可能性がありました。</li>
+	</ul>
+</li>
 <li>1.1.11 (2015-01-07)
 	<ul>
 		<li>PostgreSQL 9.4のサポート</li>
