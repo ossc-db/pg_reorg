@@ -9,7 +9,7 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks. 
 Name:		%{sname}
-Version:	1.1.11
+Version:	1.1.12
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -72,6 +72,7 @@ install -m 644 lib/pg_reorg--%{version}.sql   %{buildroot}%{pg_extensiondir}/pg_
 rm -rf %{buildroot}
 
 %changelog
+* Mon Mar 16 2015 - NTT OSS Center <onishi_takashi_d5@lab.ntt.co.jp> 1.1.12-1
 * Mon Jan 05 2015 - NTT OSS Center <onishi_takashi_d5@lab.ntt.co.jp> 1.1.11-1
 * Fri May 09 2014 - NTT OSS Center <onishi_takashi_d5@lab.ntt.co.jp> 1.1.10-1
 * Thu Nov 21 2013 - NTT OSS Center <onishi_takashi_d5@lab.ntt.co.jp> 1.1.9-1
