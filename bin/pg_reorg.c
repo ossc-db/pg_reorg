@@ -9,9 +9,9 @@
  * @brief Client Modules
  */
 
-const char *PROGRAM_VERSION	= "1.1.11";
-const char *PROGRAM_URL		= "http://reorg.projects.postgresql.org/";
-const char *PROGRAM_EMAIL	= "reorg-general@lists.pgfoundry.org";
+const char *PROGRAM_VERSION	= "1.1.12";
+const char *PROGRAM_URL		= "http://sourceforge.net/projects/pgreorg/";
+const char *PROGRAM_ISSUES		= "http://sourceforge.net/p/pgreorg/tickets/";
 
 #include "pgut/pgut-fe.h"
 
