@@ -7,6 +7,10 @@
 MODULE_big = pg_reorg
 OBJS = reorg.o pgut/pgut-be.o pgut/pgut-spi.o
 
+# Handle to which function to be published from this shared library.
+# See src/Makefile.shlib in PostgreSQL.
+SHLIB_EXPORTS = exports.txt
+
 EXTENSION = pg_reorg
 
 # The version of the extension, read from the .control file.

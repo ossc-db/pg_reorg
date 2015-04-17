@@ -1,0 +1,17 @@
+Pg_magic_func                     1
+pg_finfo_reorg_apply              2
+pg_finfo_reorg_disable_autovacuum 3
+pg_finfo_reorg_drop               4
+pg_finfo_reorg_get_order_by       5
+pg_finfo_reorg_indexdef           6
+pg_finfo_reorg_swap               7
+pg_finfo_reorg_trigger            8
+pg_finfo_reorg_version            9
+reorg_apply                      10
+reorg_disable_autovacuum         11
+reorg_drop                       12
+reorg_get_order_by               13
+reorg_indexdef                   14
+reorg_swap                       15
+reorg_trigger                    16
+reorg_version                    17
