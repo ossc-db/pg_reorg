@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<h1 id="pg_reorg">pg_reorg 1.1.12</h1>
+<h1 id="pg_reorg">pg_reorg 1.1.13</h1>
 <div class="navigation">
   <a href="index-ja.html">Top</a> &gt;
   <a href="pg_reorg-ja.html">pg_reorg</a>
@@ -330,6 +330,11 @@ $ psql -c "CREATE EXTENSION pg_reorg" -d your_database</pre>
 
 <h2 id="releases">更新履歴</h2>
 <ul>
+<li>1.1.13 (2015-04-17)
+	<ul>
+		<li>pg_statsinfo 3.0.2を動作させているPostgreSQL 9.4環境において、pg_reorg 1.1.11以降を実施するとPostgreSQLプロセスがクラッシュする不具合がありました。 </li>
+	</ul>
+</li>
 <li>1.1.12 (2015-03-16)
 	<ul>
 		<li>PostgreSQL 8.2, 8.3, 8.4のサポートを打ち切りました。</li>
