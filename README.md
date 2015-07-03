@@ -2,6 +2,11 @@ pg_reorg
 =======
 This tools re-organize tables on a PostgreSQL database without keeping any locks so that you can retrieve or update rows.
 
+Now, the development of pg_reorg has been stopped.
+We keep maintain stable branch maint_1.1 for already supported PostgreSQL version, 8.4 to 9.4.
+
+* maint_1.1 : [![Build Status](https://travis-ci.org/ossc-db/pg_reorg.svg?branch=maint_1.1)](https://travis-ci.org/ossc-db/pg_reorg)
+
 Recently, we plan to stop doing maintain pg_reorg  and start contribute  to [pg_repack](http://github.com/reorg/pg_repack) project.
 
 How to use
