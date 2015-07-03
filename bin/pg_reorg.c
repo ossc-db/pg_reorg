@@ -10,8 +10,8 @@
  */
 
 const char *PROGRAM_VERSION	= "1.1.13";
-const char *PROGRAM_URL		= "http://sourceforge.net/projects/pgreorg/";
-const char *PROGRAM_ISSUES		= "http://sourceforge.net/p/pgreorg/tickets/";
+const char *PROGRAM_URL		= "http://github.com/ossc-db/pg_reorg";
+const char *PROGRAM_ISSUES		= "http://github.com/ossc-db/pg_reorg/issues";
 
 #include "pgut/pgut-fe.h"
 
